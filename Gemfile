@@ -27,7 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use Unicorn as the app server
 # gem 'unicorn'
-
+gem 'bcrypt', '~> 3.1.7'
 #Added
 group :development, :test do
   gem 'sqlite3'
@@ -48,7 +48,6 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'pry-rails'
-  gem 'bcrypt', '~> 3.1.7'
 end
 
 group :development do
