@@ -1,5 +1,6 @@
 class MembershipsController < ApplicationController
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_that_signed_in
 
   # GET /memberships
   # GET /memberships.json
