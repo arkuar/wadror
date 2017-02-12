@@ -1,5 +1,0 @@
-== Ruby on Rails -sovellus
-
-*Heroku:* https://blooming-depths-57461.herokuapp.com
-
-
