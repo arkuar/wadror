@@ -4,6 +4,7 @@ include Helpers
 describe "Beer" do
   let!(:user) { FactoryGirl.create :user }
   let!(:brewery) { FactoryGirl.create :brewery, name:"Koff" }
+  let!(:style) { FactoryGirl.create :style }
 
   before :each do
     sign_in(username:"Pekka", password:"Foobar1")
@@ -12,7 +13,7 @@ describe "Beer" do
   it "is added when the name is valid" do
     visit new_beer_path
     fill_in('beer[name]', with: 'Olut')
-    select('Lager', from: 'beer[style]')
+    select('Lager', from: 'beer[style_id]')
     select('Koff', from: 'beer[brewery_id]')
 
     expect{

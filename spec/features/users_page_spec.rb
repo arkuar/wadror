@@ -44,7 +44,8 @@ end
 
 def create_brewery_beers_and_ratings
   brewery = FactoryGirl.create :brewery, name:"Koff"
-  beer1 = FactoryGirl.create :beer, name:"iso 3", style:"IPA", brewery:brewery
+  style = FactoryGirl.create :style, name:"Lager"
+  beer1 = FactoryGirl.create :beer, name:"iso 3", style:style, brewery:brewery
   brewery2 = FactoryGirl.create :brewery, name:"Hartwall"
   beer2 = FactoryGirl.create :beer, name:"jokuolut", brewery:brewery2
   FactoryGirl.create :rating, beer:beer1, user:user, score:25

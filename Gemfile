@@ -29,6 +29,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'unicorn'
 gem 'bcrypt', '~> 3.1.7'
 #Added
+gem 'httparty'
+
 group :development, :test do
   gem 'sqlite3'
 end
@@ -68,4 +70,5 @@ group :test do
   gem 'launchy'
   gem 'rspec-its'
   gem 'simplecov', require: false
+  gem 'webmock'
 end

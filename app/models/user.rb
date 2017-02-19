@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     end
 
     average = calculate_average(ratingsum, amount)
-    average.max_by{ |style, score| score}[0]
+    average.max_by{ |style, score| score}[0].name
   end
 
   def calculate_average(ratingsum, amount)

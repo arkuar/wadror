@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Search Beer places</h1>
+<%= form_tag places_path do %>
+    city <%= text_field_tag :city, params[:city] %>
+    <%= submit_tag "Search" %>
+<% end %>
+
+<% if @weather %>
+    <h3>Current weather in <%= @weather['location']['name'] %> </h3><br>
+    <img src="<%= @weather['current']['condition']['icon'] %>">
+    <p><strong>Temperature: </strong><%= @weather['current']['temp_c'] %> Celsius</p>
+    <p><strong>Feels like: </strong> <%= @weather['current']['feelslike_c'] %> Celsius</p>
+<% end %>
+
+<% if @places %>
+    <h3>Places to get your beer</h3>
+    <table>
+      <thead>
+      <% Place.rendered_fields.each do |f| %>
+          <td><%=f %></td>
+      <% end %>
+      </thead>
+      <% @places.each do |place| %>
+          <tr>
+            <% Place.rendered_fields.each do |f| %>
+                <% if f == :name %>
+                    <td><%= link_to place.name, place_path(place.id) %></td>
+                <% else %>
+                    <td><%= place.send(f) %></td>
+                <% end %>
+            <% end %>
+          </tr>
+      <% end %>
+    </table>
+<% end %>
