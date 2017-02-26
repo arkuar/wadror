@@ -1,12 +1,66 @@
-<h2>List of ratings</h2>
-<p>Number of ratings: <%= @ratings.count %></p>
-<ul>
-  <% @ratings.each do |rating| %>
-      <li> <%= rating %> <%= link_to User.find(rating.user_id).username, User.find(rating.user_id) %> </li>
+<h1>Rating statistics</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <h2>Best beers</h2>
+    <%= render 'list', top: @top_beers, title:'Beer' %>
+  </div>
+  <div class="col-md-4">
+    <h2>Best breweries</h2>
+    <%= render 'list', top: @top_breweries, title:'Brewery' %>
+  </div>
+  <div class="col-md-4">
+    <h2>Best styles</h2>
+    <%= render 'list', top: @top_styles, title:'Style' %>
+  </div>
+</div>
+<h2>Most active users</h2>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th class="col-md-2">User</th>
+    <th class="col-md-4">Favorite beer</th>
+    <th class="col-md-2">Preferred style</th>
+    <th class="col-md-3">Favorite brewery</th>
+    <th class="col-md-1">Ratings</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @top_raters.each do |user| %>
+  <tr>
+    <td><%= link_to user.username, user %></td>
+    <td><%= user.favorite_beer ? (link_to user.favorite_beer.name, user.favorite_beer) : "None" %></td>
+    <td><%= user.favorite_style ? (link_to user.favorite_style.name, user.favorite_style) : "None" %></td>
+    <td><%= user.favorite_brewery ? (link_to user.favorite_brewery.name, user.favorite_brewery) : "None" %></td>
+    <td><%= user.ratings.count %></td>
+  </tr>
   <% end %>
-</ul>
+  </tbody>
+</table>
+
+<h2>Recent ratings</h2>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th class="col-md-2">Beer</th>
+    <th class="col-md-2">Score</th>
+    <th class="col-md-2">User</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @ratings.recent.each do |rating| %>
+  <tr>
+    <td><%= link_to rating.beer.name, rating.beer %></td>
+    <td><%= rating.score %></td>
+    <td><%= link_to rating.user.username, rating.user %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+
+
 
 <br>
 <% if current_user.present? %>
-<%= link_to 'New Rating', new_rating_path %>
+<%= link_to 'New Rating', new_rating_path, class:'btn btn-primary' %>
 <% end %>

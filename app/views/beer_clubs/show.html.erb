@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 
 <h1><%= @beer_club.name %> <%= @beer_club.city %></h1>
 
@@ -25,15 +23,14 @@
 
       <%= form_for(@membership) do |f| %>
           <%= f.hidden_field :beer_club_id %>
-          <%= f.submit value:"Join the club" %>
+          <%= f.submit value:"Join the club", class:'btn btn-primary' %>
          <% end %>
     <% else %>
         <%= form_for(@membership, method: "delete") do |f| %>
             <%= f.hidden_field :beer_club_id %>
-            <%= f.submit value: "End the membership" %>
+            <%= f.submit value: "End the membership", class:'btn btn-primary' %>
         <% end %>
     <% end %>
-
-    <%= link_to 'Edit', edit_beer_club_path(@beer_club) %>
-    <%= link_to 'Destroy the club', @beer_club, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <br>
 <% end %>
+<%= edit_and_destroy_buttons(@beer_club) %>

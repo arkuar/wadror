@@ -2,8 +2,8 @@
 
 <h1>Search Beer places</h1>
 <%= form_tag places_path do %>
-    city <%= text_field_tag :city, params[:city] %>
-    <%= submit_tag "Search" %>
+    City <%= text_field_tag :city, params[:city] %>
+    <%= submit_tag "Search", class:'btn btn-success' %>
 <% end %>
 
 <% if @weather %>
@@ -15,7 +15,7 @@
 
 <% if @places %>
     <h3>Places to get your beer</h3>
-    <table>
+    <table class="table table-hover">
       <thead>
       <% Place.rendered_fields.each do |f| %>
           <td><%=f %></td>

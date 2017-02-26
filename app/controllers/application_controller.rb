@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_user
+  helper_method :admin_user
+  helper_method :is_banned
 
   def current_user
     return nil if session[:user_id].nil?
@@ -11,6 +13,15 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_that_signed_in
-    redirect_to signin_path, notice:'you should be signed in' if current_user.nil?
+    redirect_to signin_path, notice:'You should be signed in' if current_user.nil?
+  end
+
+  def ensure_that_admin
+    redirect_to :back, notice: "You don't have the rights to do this" if not admin_user
+  end
+
+  def admin_user
+    return false if current_user.nil?
+    current_user.admin
   end
 end

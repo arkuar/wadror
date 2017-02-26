@@ -9,8 +9,13 @@ class User < ActiveRecord::Base
   validates :password, format: { with: /\A(?=.*[A-Z])(?=.*[0-9]).{4,}\z/}
 
   has_many :ratings, dependent: :destroy
+  has_many :beers, through: :ratings
   has_many :memberships, dependent: :destroy
   has_many :beer_clubs, through: :memberships
+
+  def self.top(n)
+    User.all.sort_by{ |b| -(b.ratings.count||0) }.first(n)
+  end
 
   def favorite_beer
     return nil if ratings.empty?
@@ -18,60 +23,22 @@ class User < ActiveRecord::Base
   end
 
   def favorite_style
-    return nil if ratings.empty?
-    ratingsum = {}
-    amount = {}
-    ratings.all.each do |rating|
-      style = find_style(rating.beer_id)
-
-      if ratingsum[style].nil?
-        ratingsum[style] = 0
-        amount[style] = 0
-      end
-        ratingsum[style] += rating.score
-        amount[style] += 1
-    end
-
-    average = calculate_average(ratingsum, amount)
-    average.max_by{ |style, score| score}[0].name
-  end
-
-  def calculate_average(ratingsum, amount)
-    average = {}
-    
-    ratingsum.each do |style, score|
-      average[style] = score / amount[style]
-    end
-    average
-  end
-
-
-  def find_style(beer_id)
-    beer = Beer.find_by id:beer_id
-    beer.style
+    favorite :style
   end
 
   def favorite_brewery
-    return nil if ratings.empty?
-    ratingsum = {}
-    amount = {}
-    ratings.all.each do |rating|
-      brewery = find_brewery(rating.beer_id)
-
-      if ratingsum[brewery].nil?
-        ratingsum[brewery] = 0
-        amount[brewery] = 0
-      end
-      ratingsum[brewery] += rating.score
-      amount[brewery] += 1
-    end
-
-    average = calculate_average(ratingsum, amount)
-    average.max_by{ |brewery, score| score}[0]
+    favorite :brewery
   end
 
-  def find_brewery(beer_id)
-    beer = Beer.find_by id:beer_id
-    beer.brewery
+  def favorite(category)
+    return nil if ratings.empty?
+
+    rated = ratings.map{ |r| r.beer.send(category) }.uniq
+    rated.sort_by { |item| -rating_of(category, item) }.first
+  end
+
+  def rating_of(category, item)
+    ratings_of = ratings.select{ |r| r.beer.send(category)==item }
+    ratings_of.map(&:score).inject(&:+) / ratings_of.count.to_f
   end
 end

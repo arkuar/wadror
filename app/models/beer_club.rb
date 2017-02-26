@@ -3,6 +3,6 @@ class BeerClub < ActiveRecord::Base
   has_many :members, through: :memberships, source: :user
 
   def to_s
-    "#{self.name} (#{self.founded} #{self.city}"
+    "#{self.name} (#{self.founded} #{self.city})"
   end
 end
