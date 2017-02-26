@@ -37,7 +37,7 @@ describe "User" do
 
     sign_in(username:"Pekka", password:"Foobar1")
 
-    expect(page).to have_content "Favorite style: #{user.favorite_style}"
+    expect(page).to have_content "Favorite style: #{user.favorite_style.name}"
     expect(page).to have_content "Favorite brewery: #{user.favorite_brewery.name}"
   end
 end

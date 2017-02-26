@@ -26,11 +26,10 @@ describe "Rating" do
     expect(beer1.average_rating).to eq(15.0)
   end
 
-  it "lists the ratings and their total number" do
+  it "lists the ratings" do
 
     create_ratings
     visit ratings_path
-    expect(page).to have_content "Number of ratings: #{Rating.count}"
 
     Rating.all.each do |rating|
       expect(page).to have_content rating

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :toggle_ban]
-  before_action :ensure_that_signed_in, except: [:index, :show, :new]
+  before_action :ensure_that_signed_in, except: [:index, :show, :new, :create]
   before_action :ensure_that_admin, only: :toggle_ban
 
   # GET /users
