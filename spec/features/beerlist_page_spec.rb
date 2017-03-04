@@ -4,6 +4,9 @@ describe "Beerlist page" do
   before :all do
     self.use_transactional_fixtures = false
     WebMock.disable_net_connect!(allow_localhost:true)
+    Capybara.register_driver :selenium do |app|
+      Capybara::Selenium::Driver.new(app, :browser => :chrome)
+    end
   end
 
   before :each do
@@ -31,7 +34,29 @@ describe "Beerlist page" do
 
   it "shows one known beer", js: true do
     visit beerlist_path
-    save_and_open_page
     expect(page).to have_content "Nikolai"
+  end
+
+  it "is ordered by name by default", js: true do
+    visit beerlist_path
+    expect(find('table').find('tr:nth-child(2)')).to have_content "Fastenbier"
+    expect(find('table').find('tr:nth-child(3)')).to have_content "Lechte Weisse"
+    expect(find('table').find('tr:nth-child(4)')).to have_content "Nikolai"
+  end
+
+  it "is ordered alphabetically by style when clicked style", js: true do
+    visit beerlist_path
+    click_link 'style'
+    expect(find('table').find('tr:nth-child(2)')).to have_content "Lager"
+    expect(find('table').find('tr:nth-child(3)')).to have_content "Rauchbier"
+    expect(find('table').find('tr:nth-child(4)')).to have_content "Weizen"
+  end
+
+  it "is ordered alhabetically by brewery when clicked brewery", js: true do
+    visit beerlist_path
+    click_link 'brewery'
+    expect(find('table').find('tr:nth-child(2)')).to have_content "Ayinger"
+    expect(find('table').find('tr:nth-child(3)')).to have_content "Koff"
+    expect(find('table').find('tr:nth-child(4)')).to have_content "Schlenkerla"
   end
 end

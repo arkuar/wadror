@@ -38,6 +38,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    archive-zip (0.7.0)
+      io-like (~> 0.3.0)
     arel (6.0.4)
     autoprefixer-rails (6.7.5)
       execjs
@@ -62,6 +64,9 @@ GEM
       xpath (~> 2.0)
     childprocess (0.6.2)
       ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.0.0)
+      archive-zip (~> 0.7.0)
+      nokogiri (~> 1.6)
     coderay (1.1.1)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
@@ -91,6 +96,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.8.0)
+    io-like (0.3.0)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -250,6 +256,7 @@ DEPENDENCIES
   bootstrap-sass
   byebug
   capybara
+  chromedriver-helper
   coffee-rails (~> 4.1.0)
   database_cleaner
   factory_girl_rails
