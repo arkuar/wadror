@@ -4,9 +4,9 @@ describe "Beerlist page" do
   before :all do
     self.use_transactional_fixtures = false
     WebMock.disable_net_connect!(allow_localhost:true)
-    Capybara.register_driver :selenium do |app|
-      Capybara::Selenium::Driver.new(app, :browser => :chrome)
-    end
+#    Capybara.register_driver :selenium do |app|
+#      Capybara::Selenium::Driver.new(app, :browser => :chrome)
+#    end
   end
 
   before :each do
