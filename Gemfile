@@ -30,6 +30,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 #Added
 gem 'httparty'
+gem 'jquery-turbolinks'
+
 
 group :development, :test do
   gem 'sqlite3'
@@ -76,4 +78,6 @@ group :test do
   gem 'rspec-its'
   gem 'simplecov', require: false
   gem 'webmock'
+  gem 'selenium-webdriver', '2.53.4'
+  gem 'database_cleaner'
 end

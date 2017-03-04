@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   get 'join', to: 'memberships#new'
   get 'places', to: 'places#index'
   post 'places', to:'places#search'
+  get 'beerlist', to:'beers#list'
+  get 'brewerylist', to:'breweries#list'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

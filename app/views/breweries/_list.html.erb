@@ -1,8 +1,13 @@
 <table class="table table-hover">
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Year</th>
+    <% if session[:last_order].nil? %>
+        <th><%= link_to 'Name', breweries_path(order:"name") %></th>
+        <th><%= link_to 'Year', breweries_path(order:"year") %></th>
+    <% else %>
+        <th><%= link_to 'Name', breweries_path(order:"name", desc:!@desc) %></th>
+        <th><%= link_to 'Year', breweries_path(order:"year", desc:!@desc) %></th>
+    <% end %>
   </tr>
   </thead>
 
