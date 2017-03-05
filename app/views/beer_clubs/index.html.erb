@@ -18,7 +18,6 @@
         <td><%= beer_club.founded %></td>
         <td><%= beer_club.city %></td>
         <td><%= link_to 'Show', beer_club, class:'btn btn-default' %></td>
-        <td><%= link_to 'Edit', edit_beer_club_path(beer_club), class:'btn btn-default' if current_user %></td>
         <td><%= link_to 'Destroy', beer_club, class:'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } if admin_user %></td>
       </tr>
     <% end %>

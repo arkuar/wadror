@@ -1,7 +1,17 @@
 class BreweriesController < ApplicationController
   before_action :set_brewery, only: [:show, :edit, :update, :destroy]
   before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :expire_cache, only: [:create, :update, :destroy]
+  before_action :skip_if_cached, only: [:index]
 
+  def skip_if_cached
+    @order = params[:order] || 'name'
+    return :index if request.format.html? and fragment_exist?( "brewerylist-#{@order}"  )
+  end
+
+  def expire_cache
+    ["brewerylist-name", "brewerylist-year"].each{ |f| expire_fragment(f) }
+  end
 
   # GET /breweries
   # GET /breweries.json
@@ -9,25 +19,25 @@ class BreweriesController < ApplicationController
     @breweries = Brewery.all
     @active_breweries = Brewery.active
     @retired_breweries = Brewery.retired
-    order = params[:order] ||'name'
-    @desc = params[:desc]
 
-    @desc = false if @desc.nil? || @desc == 'false' || session[:last_order].nil? || session[:last_order] != order
+    @desc = params[:desc]
+    @order = params[:order] || 'name'
+    @desc = false if @desc.nil? || @desc == 'false' || session[:last_order].nil? || session[:last_order] != @order
     @desc = true if @desc == 'true'
 
 
-    @active_breweries = case order
+    @active_breweries = case @order
                           when 'name' then @active_breweries.sort_by{ |b| b.name }
                           when 'year' then @active_breweries.sort_by{ |b| b.year }
                         end
-    @retired_breweries = case order
+    @retired_breweries = case @order
                            when 'name' then @retired_breweries.sort_by{ |b| b.name }
                            when 'year' then @retired_breweries.sort_by{ |b| b.year }
                          end
 
     @active_breweries.reverse! if @desc
     @retired_breweries.reverse! if @desc
-    session[:last_order] = order
+    session[:last_order] = @order
   end
 
   def list

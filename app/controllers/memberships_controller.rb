@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_action :set_membership, only: [:show, :edit, :update, :destroy]
+  before_action :set_membership, only: [:show, :edit, :update, :destroy, :confirm]
   before_action :ensure_that_signed_in
 
   # GET /memberships
@@ -11,6 +11,13 @@ class MembershipsController < ApplicationController
   # GET /memberships/1
   # GET /memberships/1.json
   def show
+  end
+
+  def confirm
+    @membership.confirmed = true
+    @membership.save
+
+    redirect_to :back, notice: 'User accepted to the club.'
   end
 
   # GET /memberships/new
@@ -31,7 +38,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.save
-        format.html { redirect_to BeerClub.find_by(id: @membership.beer_club_id), notice: current_user.username + ', welcome to the club'}
+        format.html { redirect_to BeerClub.find_by(id: @membership.beer_club_id), notice: 'Your application has been sent.'}
         format.json { render :show, status: :created, location: @membership }
       else
         @clubs = BeerClub.all
@@ -58,9 +65,10 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+    ms = @membership
     @membership.destroy
     respond_to do |format|
-      format.html { redirect_to user_path(current_user.id), notice: 'Membership in ' + @membership.beer_club.name + ' ended.' }
+      format.html { redirect_to user_path(current_user.id), notice: ms.confirmed ? 'Membership in ' + @membership.beer_club.name + ' ended.' : 'Application cancelled.' }
       format.json { head :no_content }
     end
   end

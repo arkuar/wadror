@@ -1,3 +1,5 @@
+<% cache 'ratings', expires_in:10.minutes do %>
+
 <h1>Rating statistics</h1>
 
 <div class="row">
@@ -48,7 +50,7 @@
   </tr>
   </thead>
   <tbody>
-  <% @ratings.recent.each do |rating| %>
+  <% @recent_ratings.each do |rating| %>
   <tr>
     <td><%= link_to rating.beer.name, rating.beer %></td>
     <td><%= rating.score %></td>
@@ -58,7 +60,7 @@
   </tbody>
 </table>
 
-
+<% end %>
 
 <br>
 <% if current_user.present? %>

@@ -1,7 +1,7 @@
 class Beer < ActiveRecord::Base
   include RatingAverage
 
-  belongs_to :brewery
+  belongs_to :brewery, touch: true
   has_many :ratings, dependent: :destroy
   belongs_to :style
 
@@ -13,6 +13,6 @@ class Beer < ActiveRecord::Base
   end
 
   def to_s
-    "#{name} #{brewery.name}"
+    "#{name}, #{brewery.name}"
   end
 end

@@ -5,15 +5,35 @@
   <% end %>
 </h2>
 
+<h3>Beer clubs</h3>
+<% if @user.beer_clubs.empty? %>
+    <p>No Beer club memberships</p>
+<% else %>
+    <b>Member of</b>
+    <ul>
+      <% @user.confirmed_memberships.each do |membership| %>
+      <li><%= link_to membership.beer_club.name, membership.beer_club %></li>
+      <% end %>
+    </ul>
+<% end %>
+<% if !@user.unconfirmed_memberships.empty? %>
+    <b>Applied membership of</b>
+    <ul>
+      <% @user.unconfirmed_memberships.each do |membership| %>
+          <li><%= link_to membership.beer_club.name, membership.beer_club %></li>
+      <% end %>
+    </ul>
+<% end %>
+
 <% if @user.ratings.empty? %>
     <p>No ratings yet!</p>
 <% else %>
-    <p>Has made <%= pluralize(@user.ratings.count, "rating") %>, average <%= round(@user.average_rating) %></p>
-
+    <p>Favorite beer: <%= @user.favorite_beer.name %></p>
     <p>Favorite style: <%= @user.favorite_style.name %></p>
     <p>Favorite brewery: <%= @user.favorite_brewery.name %></p>
 
     <h2>Ratings</h2>
+    <p>Has made <%= pluralize(@user.ratings.count, "rating") %>, average <%= round(@user.average_rating) %></p>
     <ul>
       <% @user.ratings.each do |rating| %>
           <li>

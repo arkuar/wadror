@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :users do
     post 'toggle_ban', on: :member
   end
+  resources :memberships do
+    post 'confirm', on: :member
+  end
   resources :beers
   resources :breweries do
     post 'toggle_activity', on: :member
@@ -24,6 +27,8 @@ Rails.application.routes.draw do
   post 'places', to:'places#search'
   get 'beerlist', to:'beers#list'
   get 'brewerylist', to:'breweries#list'
+  get 'auth/:provider/callback', to: 'sessions#create_oauth'
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

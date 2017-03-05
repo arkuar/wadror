@@ -1,5 +1,5 @@
 
-<h1><%= @beer_club.name %> <%= @beer_club.city %></h1>
+<h1><%= @beer_club.name %>, <%= @beer_club.city %></h1>
 
 
 <p>
@@ -7,15 +7,28 @@
 </p>
 
 <h2>Members</h2>
-  <% if @beer_club.members.empty? %>
+  <% if @beer_club.confirmed_memberships.empty? %>
     <p>No members yet.</p>
   <% else %>
       <ul>
-          <% @beer_club.members.each do |member| %>
-          <li><%= link_to member.username, member %></li>
+          <% @beer_club.confirmed_memberships.each do |member| %>
+          <li><%= link_to member.user.username, member.user %></li>
           <% end %>
       </ul>
   <% end %>
+
+<% if (!@beer_club.unconfirmed_memberships.empty?) && current_user && @beer_club.member(current_user) %>
+    <h2>Outstanding applications</h2>
+
+    <ul>
+      <% @beer_club.unconfirmed_memberships.each do |member| %>
+      <li>
+        <%= link_to member.user.username, member.user %>
+        <%= link_to 'Confirm', confirm_membership_path(member.id), method: :post, class:"btn btn-primary" %>
+      </li>
+      <% end %>
+    </ul>
+<% end %>
 
 <% if current_user %>
 
@@ -28,7 +41,7 @@
     <% else %>
         <%= form_for(@membership, method: "delete") do |f| %>
             <%= f.hidden_field :beer_club_id %>
-            <%= f.submit value: "End the membership", class:'btn btn-primary' %>
+            <%= f.submit value:@beer_club.member(current_user) ? "End the membership" : "Cancel application", class:'btn btn-primary' %>
         <% end %>
     <% end %>
     <br>
